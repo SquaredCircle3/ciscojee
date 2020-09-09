@@ -14,6 +14,16 @@ public class Libro {
     private String nombre;
     private Object autor;
     private String isbn;
+    
+    public Libro(){
+        
+    }
+
+    public Libro(String nombre, Object autor, String isbn) {
+        this.nombre = nombre;
+        this.autor = autor;
+        this.isbn = isbn;
+    }
 
     public String getNombre() {
         return nombre;
