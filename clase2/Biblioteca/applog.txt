@@ -1,0 +1,5 @@
+INFO    2020-09-15 17:29:14,192 [main] org.cisco.jee.biblioteca.Biblioteca  - ESTE ES UN INFO MESSAGE
+DEBUG   2020-09-15 17:29:45,406 [main] org.cisco.jee.biblioteca.Biblioteca  - ESTE ES UN INFO MESSAGE
+DEBUG   2020-09-15 17:30:29,709 [main] org.cisco.jee.biblioteca.Biblioteca  - ESTE ES UN debug MESSAGE
+INFO    2020-09-15 17:30:29,712 [main] org.cisco.jee.biblioteca.Biblioteca  - INFO MESSAGE
+ERROR   2020-09-15 17:30:29,712 [main] org.cisco.jee.biblioteca.Biblioteca  - ERROR message

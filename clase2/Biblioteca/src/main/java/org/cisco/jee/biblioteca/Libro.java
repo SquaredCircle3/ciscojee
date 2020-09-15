@@ -12,14 +12,14 @@ package org.cisco.jee.biblioteca;
 public class Libro {
 
     private String nombre;
-    private Object autor;
+    private Autor autor;
     private String isbn;
     
     public Libro(){
         
     }
 
-    public Libro(String nombre, Object autor, String isbn) {
+    public Libro(String nombre, Autor autor, String isbn) {
         this.nombre = nombre;
         this.autor = autor;
         this.isbn = isbn;
@@ -33,12 +33,12 @@ public class Libro {
         this.nombre = nombre;
     }
 
-    public Object getAutor() {
+    public Autor getAutor() {
         return autor;
     }
 
-    public void setAutor(Object Autor) {
-        this.autor = Autor;
+    public void setAutor(Autor autor) {
+        this.autor = autor;
     }
 
     public String getIsbn() {

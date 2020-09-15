@@ -7,6 +7,9 @@ package org.cisco.jee.biblioteca;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 
 /**
  *
@@ -14,20 +17,26 @@ import java.util.List;
  */
 public class Biblioteca {
     
-    List<Object> libros;
+    DateTime fecha;
+    List<Libro> libros;
     
     public Biblioteca(){
         libros = new ArrayList<>();
-               
+        fecha = DateTime.now();
     }
-    public void addLibro(Object libro){
+    public void addLibro(Libro libro){
         libros.add(libro);
     }
     
-    
-    public static void main(String[] args) {
-        System.out.println("Biblioteca");
+    public DateTime fecha() {
+        return fecha;
     }
-    
-    
+ 
+    public static void main(String[] args) {
+        Logger log = LogManager.getLogger(Biblioteca.class.getName());
+        
+        log.debug("ESTE ES UN debug MESSAGE");
+        log.info("INFO MESSAGE");
+        log.error("ERROR message");
+    }
 }
