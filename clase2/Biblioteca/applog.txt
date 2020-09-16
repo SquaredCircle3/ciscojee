@@ -3,3 +3,6 @@ DEBUG   2020-09-15 17:29:45,406 [main] org.cisco.jee.biblioteca.Biblioteca  - ES
 DEBUG   2020-09-15 17:30:29,709 [main] org.cisco.jee.biblioteca.Biblioteca  - ESTE ES UN debug MESSAGE
 INFO    2020-09-15 17:30:29,712 [main] org.cisco.jee.biblioteca.Biblioteca  - INFO MESSAGE
 ERROR   2020-09-15 17:30:29,712 [main] org.cisco.jee.biblioteca.Biblioteca  - ERROR message
+DEBUG   2020-09-15 18:15:53,099 [main] org.cisco.jee.biblioteca.Biblioteca  - ESTE ES UN debug MESSAGE
+INFO    2020-09-15 18:15:53,101 [main] org.cisco.jee.biblioteca.Biblioteca  - INFO MESSAGE
+ERROR   2020-09-15 18:15:53,101 [main] org.cisco.jee.biblioteca.Biblioteca  - ERROR message
