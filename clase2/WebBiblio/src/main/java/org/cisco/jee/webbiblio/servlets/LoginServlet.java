@@ -7,19 +7,31 @@ package org.cisco.jee.webbiblio.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.cisco.jee.webbiblio.util.Constants;
 
 /**
  *
  * @author pablo
  */
-@WebServlet(name = "InitServlet", urlPatterns = {"/InitServlet"})
-public class InitServlet extends HttpServlet {
-  
+@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
+public class LoginServlet extends HttpServlet {
+
+    private final String EMPTY_USER = "Usuario vacío";
+    private final String EMPTY_PASS = "Password vacío";
+    
+    private final Logger log = LogManager.getLogger(LoginServlet.class.getName());
+    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -30,39 +42,39 @@ public class InitServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-                
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet InitServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            
-            out.println("<h1>Servlet para el form de login</h1>");
-            out.println("</br>");
-            
-            synchronized(this){
-                // Obtenermos los contenidos de los inputs en HTML
-                String user = request.getParameter("txtUsuario");
-                String pass = request.getParameter("pwdPassword");
-                        
-                // Mostramos el contenido de esos inputs
-                out.println("<p>Usuario recibido:" + user + "</p>");
-                out.println("<br>");
-                out.println("<p>Password recibido:" + pass + "</p>");
-            }
-            // Mostramos el QueryString
-            out.println("<br>");
-            out.println("QueryString: " + request.getQueryString());
-            
-            out.println("</body>");
-            out.println("</html>");
+            throws ServletException, IOException {  
+        // Procesa un usuario y contraseña
+        String user = request.getParameter("txtUsuario");
+        String pass = request.getParameter("pwdPassword");
+        
+        if (StringUtils.isBlank(user)) {
+            log.error(EMPTY_USER);
+            showErrorPage(request, response, "Usuario vacío");
+            return;
         }
+        
+        if (StringUtils.isBlank(pass)) {
+            log.error(EMPTY_PASS);
+            showErrorPage(request, response, "Password vacío");
+            return;
+        }
+                
+        // TODO: validar contra un repositorio de datos externo
+        // Asumimos user/pass correctos
+        HttpSession session = request.getSession();
+        session.setAttribute("userAtuhenticated", true);
+        
+        // Redirect to menu
+        log.debug("Redirecting to menu");
+        request.getRequestDispatcher(Constants.JSP_MENU).forward(request, response);
     }
+    
+    private void showErrorPage(HttpServletRequest request, HttpServletResponse response, String msg) throws ServletException, IOException {
+        request.setAttribute("msg", msg);
+        RequestDispatcher dispatcher = request.getRequestDispatcher(Constants.JSP_LOGIN);
+        dispatcher.forward(request, response);        
+    }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

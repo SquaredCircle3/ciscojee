@@ -11,26 +11,28 @@ package org.cisco.jee.biblioteca;
  */
 public class Libro {
 
-    private String nombre;
+    private String titulo;
     private Autor autor;
     private String isbn;
+    private int anioEdicion;
+    private String Editorial;
     
     public Libro(){
         
     }
 
     public Libro(String nombre, Autor autor, String isbn) {
-        this.nombre = nombre;
+        this.titulo = nombre;
         this.autor = autor;
         this.isbn = isbn;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public Autor getAutor() {
@@ -49,9 +51,25 @@ public class Libro {
         this.isbn = isbn;
     }
 
+    public int getAnioEdicion() {
+        return anioEdicion;
+    }
+
+    public void setAnioEdicion(int anioEdicion) {
+        this.anioEdicion = anioEdicion;
+    }
+
+    public String getEditorial() {
+        return Editorial;
+    }
+
+    public void setEditorial(String Editorial) {
+        this.Editorial = Editorial;
+    }
+
     @Override
     public String toString() {
-        return "Libro{" + "nombre=" + nombre + ", Autor=" + autor + ", isbn=" + isbn + '}';
+        return "Libro{" + "nombre=" + titulo + ", Autor=" + autor + ", isbn=" + isbn + '}';
     }
 
 }
