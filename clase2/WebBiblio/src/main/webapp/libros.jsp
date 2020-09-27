@@ -5,8 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.Date" %>
-<%@page import="java.util.Calendar" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,7 +13,7 @@
     </head>
     <body>
         <h1>Libros</h1>
-        
+        <p style="color: green">${success}</p>
         <form action='LibroServlet' method="POST" name="formLibro">
         <p>
         <table style="border: none">

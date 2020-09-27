@@ -63,6 +63,7 @@ public class LibroServlet extends HttpServlet {
                 }
                 libros.add(libro);
                 
+                request.setAttribute("success", "Se cargó exitosamente");
                 RequestDispatcher dispatcher = request.getRequestDispatcher(Constants.JSP_LIBROS);
                 dispatcher.forward(request, response);
             }
@@ -117,7 +118,7 @@ public class LibroServlet extends HttpServlet {
 
     private boolean validarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
-        if (session.getAttribute("userAtuhenticated") == null) {
+        if (session.getAttribute(Constants.SESSION_AUTH) == null) {
             RequestDispatcher dispatcher = request.getRequestDispatcher(Constants.JSP_LOGIN);
             dispatcher.forward(request, response); 
             return false;

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.SingleThreadModel;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,12 +27,11 @@ import org.cisco.jee.webbiblio.util.Constants;
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
 
-    private final String EMPTY_USER = "Usuario vacío";
-    private final String EMPTY_PASS = "Password vacío";
+    private final static String EMPTY_USER = "Usuario vacío";
+    private final static String EMPTY_PASS = "Password vacío";
     
-    private final Logger log = LogManager.getLogger(LoginServlet.class.getName());
+    private final static Logger log = LogManager.getLogger(LoginServlet.class.getName());
     
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,27 +42,27 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {  
+            throws ServletException, IOException {            
         // Procesa un usuario y contraseña
         String user = request.getParameter("txtUsuario");
         String pass = request.getParameter("pwdPassword");
         
         if (StringUtils.isBlank(user)) {
             log.error(EMPTY_USER);
-            showErrorPage(request, response, "Usuario vacío");
+            showErrorPage(request, response, EMPTY_USER);
             return;
         }
         
         if (StringUtils.isBlank(pass)) {
             log.error(EMPTY_PASS);
-            showErrorPage(request, response, "Password vacío");
+            showErrorPage(request, response, EMPTY_PASS);
             return;
         }
                 
         // TODO: validar contra un repositorio de datos externo
         // Asumimos user/pass correctos
         HttpSession session = request.getSession();
-        session.setAttribute("userAtuhenticated", true);
+        session.setAttribute(Constants.SESSION_AUTH, true);
         
         // Redirect to menu
         log.debug("Redirecting to menu");
