@@ -8,19 +8,18 @@ package org.cisco.jee.webbiblio.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.SingleThreadModel;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.cisco.jee.biblioteca.Autor;
+import org.cisco.jee.biblioteca.Libro;
 import org.cisco.jee.biblioteca.Pais;
 import org.cisco.jee.webbiblio.util.Constants;
 import org.cisco.jee.webbiblio.util.DBSingleton;
@@ -29,13 +28,10 @@ import org.cisco.jee.webbiblio.util.DBSingleton;
  *
  * @author pablo
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "PaisServlet", urlPatterns = {"/PaisServlet"})
+public class PaisServlet extends HttpServlet {
 
-    private final static String EMPTY_USER = "Usuario vacío";
-    private final static String EMPTY_PASS = "Password vacío";
-    
-    private final static Logger log = LogManager.getLogger(LoginServlet.class.getName());
+    private final Logger log = LogManager.getLogger(PaisServlet.class.getName());
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,40 +43,28 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {            
-        // Procesa un usuario y contraseña
-        String user = request.getParameter("txtUsuario");
-        String pass = request.getParameter("pwdPassword");
+            throws ServletException, IOException {
         
-        if (StringUtils.isBlank(user)) {
-            log.error(EMPTY_USER);
-            showErrorPage(request, response, EMPTY_USER);
-            return;
-        }
-        
-        if (StringUtils.isBlank(pass)) {
-            log.error(EMPTY_PASS);
-            showErrorPage(request, response, EMPTY_PASS);
-            return;
-        }
+        if(validarUsuario(request, response)) {
+            if (validarEntrada(request, response)) {
+                String pais = request.getParameter("txtPais");
                 
-        // TODO: validar contra un repositorio de datos externo
-        // Asumimos user/pass correctos
-        HttpSession session = request.getSession();
-        session.setAttribute(Constants.SESSION_AUTH, true);
-        
-        // Redirect to menu
-        log.debug("Redirecting to menu");
-        cargarPaises();
-        request.getRequestDispatcher(Constants.JSP_MENU).forward(request, response);
+                // Acceder al contexto del Servlet (application context)
+                List<Pais> paises = (List<Pais>) getServletContext().getAttribute("paises");
+                if (paises == null) {
+                    paises = DBSingleton.getInstance().getPaises();
+                    getServletContext().setAttribute("paises", paises);
+                }
+                Pais p = new Pais(pais);
+                p.setId(paises.size()+1);
+                paises.add(p);
+                
+                request.setAttribute("success", "Se cargó exitosamente");
+                RequestDispatcher dispatcher = request.getRequestDispatcher(Constants.JSP_PAISES);
+                dispatcher.forward(request, response);
+            }
+        }
     }
-    
-    private void showErrorPage(HttpServletRequest request, HttpServletResponse response, String msg) throws ServletException, IOException {
-        request.setAttribute("msg", msg);
-        RequestDispatcher dispatcher = request.getRequestDispatcher(Constants.JSP_LOGIN);
-        dispatcher.forward(request, response);        
-    }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -121,19 +105,20 @@ public class LoginServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void cargarPaises() {
-        List<Pais> paises = (List<Pais>) getServletContext().getAttribute("paises");
+    private boolean validarEntrada(HttpServletRequest request, HttpServletResponse response) {
         
-        if (paises == null) {
-            paises = DBSingleton.getInstance().getPaises();
-            getServletContext().setAttribute("paises", paises);
+        //TODO: a cargo del alumno
+        return true;
+    }
+
+    private boolean validarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = request.getSession();
+        if (session.getAttribute(Constants.SESSION_AUTH) == null) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher(Constants.JSP_LOGIN);
+            dispatcher.forward(request, response); 
+            return false;
         }
-        
-        List<Autor> autores = (List<Autor>) getServletContext().getAttribute("autores");
-        if (autores == null) {
-            autores = DBSingleton.getInstance().getAutores();
-            getServletContext().setAttribute("autores", autores);
-        }
+        return true;
     }
 
 }

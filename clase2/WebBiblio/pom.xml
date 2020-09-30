@@ -52,6 +52,11 @@
             <version>${jakartaee}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>displaytag</groupId>
+            <artifactId>displaytag</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
     
      <build>

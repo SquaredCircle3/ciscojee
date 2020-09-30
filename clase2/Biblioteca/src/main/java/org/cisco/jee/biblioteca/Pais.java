@@ -10,6 +10,7 @@ package org.cisco.jee.biblioteca;
  * @author Nicolas
  */
 public class Pais {
+    private int id;
     private String nombre;
             
      public Pais(String nombre){
@@ -21,4 +22,18 @@ public class Pais {
      public void setNombre(String nombre){
          this.nombre = nombre;
      }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
 }

@@ -4,14 +4,14 @@
     Author     : pablo
 --%>
 
+<%@page import="org.cisco.jee.biblioteca.Libro"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
+<%@taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://displaytag.sf.net" prefix="display" %>
+
+<%@include file="header.jsp" %>
+
         <h1>Libros</h1>
         <p style="color: green">${success}</p>
         <form action='LibroServlet' method="POST" name="formLibro">
@@ -46,8 +46,41 @@
         </p>
         </form>
         
+        <%-- SCRIPTLETS --%>
         <p>
-            ${libros}
+            <table>
+            <%
+                List<Libro> libros = (List<Libro>)session.getAttribute("libros");
+                if(libros != null && libros.size() > 0) {
+                    for(Libro l: libros) {
+            %>
+                <tr>
+                <td><%=l.getTitulo()%></td>
+                <td><%=l.getIsbn()%></td>
+                </tr>
+            <%
+                    }
+                }
+            %>
+            </table>
+        </p> 
+        <hr>
+        <%-- JSTL + EL --%>
+        <p>
+        <table>
+            <c:forEach items="${libros}" var="libro">
+                <tr>
+                <td>${libro.titulo}</td>
+                <td>${libro.isbn}</td>
+                </tr>
+            </c:forEach>
+        </table>
         </p>
-    </body>
-</html>
+        <hr>
+        <p>
+            <%-- EXTERNAL TAG LIBRARY --%>
+            <display:table name="${libros}" />
+        </p>
+        <hr>
+    
+<%@include file="footer.jsp" %>
