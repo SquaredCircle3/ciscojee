@@ -6,16 +6,20 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<!--<html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Biblioteca</title>
     </head> 
-    <body>
+    <body>-->
+<%@include file="header.jsp" %>
+
         <h1>Opciones</h1>
         <br>
         <a href="libros.jsp"> [Libros] </a> <br>
         <a href="autores.jsp"> [Autores] </a> <br>
         <a href="paises.jsp"> [Paises] </a> <br>
-    </body>
-</html>
+        
+<%@include file="footer.jsp" %>
+<!--    </body>
+</html>-->

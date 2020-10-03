@@ -14,5 +14,10 @@ public class Constants {
     public static final String JSP_LOGIN = "login.jsp";
     public static final String JSP_MENU = "menu.jsp";
     public static final String JSP_LIBROS = "libros.jsp";
+    public static final String JSP_PAISES = "paises.jsp";
+    public static final String JSP_AUTORES = "autores.jsp";
+    
+    public static final String SESSION_AUTH = "userAtuhenticated";
+    
     
 }
